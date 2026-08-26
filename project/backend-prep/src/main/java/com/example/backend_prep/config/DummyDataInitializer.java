@@ -7,6 +7,10 @@ import com.example.backend_prep.repository.MemberRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+// CommandLineRunner를 구현하면(run 메서드 오버라이드) Spring이 앱 기동을 다 마친 직후
+// 이 run()을 자동으로 한 번 호출해줌 — 우리가 직접 호출하는 코드는 어디에도 없음.
+// @Component: 이 클래스를 Spring이 관리하는 객체(빈)로 등록 — 등록해야 Spring이 존재를
+// 알고 위 run()을 실행 대상으로 인식함.
 @Component
 public class DummyDataInitializer implements CommandLineRunner {
 
