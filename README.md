@@ -46,7 +46,7 @@ project/  토이프로젝트 (Java/Spring, 공고 핵심 업무 미러링)
 | member | 03 | 회원 엔티티, REST API | 완료 (JPA 엔티티 + 더미데이터) |
 | document | 04 | 문서 CRUD, owner 연관관계(LAZY) | 완료 |
 | document 조회 성능 | 04 | 인덱스 유무 비교(`EXPLAIN ANALYZE`), N+1 재현 → Fetch Join 해결 | 완료 |
-| document 동시편집 | 04, 07 | 낙관적 락(`@Version`) 기반 버전 관리 | 진행 중 |
+| document 동시편집 | 04, 07 | 낙관적 락(`@Version`) 기반 버전 관리 — 충돌 재현 테스트(순차 시뮬레이션 + `ExecutorService` 동시성 버전) 완료 | 완료 |
 | realtime-edit | 07 | 동시 편집 충돌 처리, Redis 세션/락 | 예정 |
 | payment (멱등성) | 03 | 멱등키 헤더 기반 중복 결제 방지 — DB 유니크 제약으로 동시 요청 race까지 막기 | 예정 |
 | inventory (재고 락) | 04, 05 | 동시 차감 시 오버셀 재현 → 원자적 UPDATE/비관적 락으로 해결, Redis 분산 락 fallback | 예정 |
@@ -78,6 +78,6 @@ project/  토이프로젝트 (Java/Spring, 공고 핵심 업무 미러링)
 ## 다음 단계
 
 1. `docs/00`~`11` 전체 작성 완료 — 순서대로 읽고 각 문서 끝 "실습 방법"/체크리스트 직접 수행하며 소화.
-2. `project/backend-prep`에서 04번 문서 실습 이어서 진행 — 낙관적 락 충돌 재현(Part E).
+2. 04번 문서 Part E(낙관적 락) 완료 — `Document.version`(`@Version`) 추가, 충돌 재현 테스트 2종(`DocumentServiceTest`) 통과.
 3. 멱등성(03번)·재고 락/분산 락(04·05번)·Saga(06번)는 예전에 다른 프로젝트에서 다뤘지만 제대로 이해한 게 아니었어서, 이 저장소에서 새로 배우는 셈 치고 각 문서 실습을 직접 손으로 구현해보며 확인.
 4. 학습하며 막히거나 더 깊게 파야 할 주제 생기면 해당 번호 문서에 이어서 보강.

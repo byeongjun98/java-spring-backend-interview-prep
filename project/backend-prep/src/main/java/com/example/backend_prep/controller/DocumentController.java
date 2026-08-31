@@ -3,7 +3,7 @@ package com.example.backend_prep.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend_prep.service.DocumentService;
@@ -22,16 +22,22 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    // @GetMapping("/document"): GET /document 요청이 오면 이 메서드가 처리한다는 매핑.
-    // @RequestParam: URL 쿼리스트링(?id=1)의 값을 파라미터로 꺼내옴 — 명시 안 해도 컴파일
-    // 옵션에 따라 동작하는 경우가 있지만, 헷갈리지 않게 항상 명시하는 게 원칙(03번 문서).
-    @GetMapping("/document")
-    public String document(@RequestParam Integer id) {
+    // 반환값이 실제로는 "그 문서의 owner 이름"이라서, 경로/메서드명도 owner 기준으로 맞춤
+    // (전엔 경로가 "/document"라 문서 자체를 돌려주는 것처럼 보였는데 실제 동작과 안 맞았음).
+    //
+    // @GetMapping("/documents/{id}/owner"): {id} 부분이 경로 변수(path variable) —
+    // 예를 들어 GET /documents/3/owner 로 요청 오면 id 자리에 3이 들어옴.
+    // @PathVariable: 그 경로 변수 값을 파라미터로 꺼내옴. 쿼리스트링(?id=3)을 쓰는
+    // @RequestParam과 달리, URL 경로 자체의 일부로 리소스 식별자를 표현할 때 씀
+    // (REST 관습상 "특정 리소스 하나"를 가리킬 땐 경로 변수 쪽이 더 자연스러움).
+    @GetMapping("/documents/{id}/owner")
+    public String owner(@PathVariable Integer id) {
         return documentService.getOwner(id);
     }
 
-    @GetMapping("/documents")
-    public List<String> documents() {
+    // 상위 20개 문서 각각의 owner 이름 목록을 돌려줌 — 경로도 "여러 문서의 owner들"로 명확히.
+    @GetMapping("/documents/owners")
+    public List<String> owners() {
         return documentService.getOwners();
     }
 }

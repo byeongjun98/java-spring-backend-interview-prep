@@ -15,7 +15,8 @@ create table document(
     content varchar(4000),
     owner_id INT REFERENCES member (id),
     created_at TIMESTAMP NOT NULL DEFAULT now(),
-    update_at timestamp
+    update_at timestamp,
+    version BIGINT NOT NULL DEFAULT 0 -- 04번 문서 Part E(낙관적 락, @Version) 실습에서 추가
 );
 
 -- 04번 문서 Part C(인덱스 유무 비교) 실습에서 추가한 인덱스

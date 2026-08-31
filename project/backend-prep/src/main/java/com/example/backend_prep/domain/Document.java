@@ -2,6 +2,7 @@ package com.example.backend_prep.domain;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Version;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -48,10 +49,27 @@ public class Document {
     @Column(name = "update_at")
     private LocalDateTime updateAt;
 
+    // 낙관적 락(optimistic lock)용 버전 컬럼. 이 엔티티를 저장(UPDATE)할 때마다 Hibernate가
+    // "WHERE id=? AND version=현재값" 조건을 자동으로 붙이고, 성공하면 값을 1 증가시킴.
+    // 두 사용자가 같은 문서를 동시에 읽어서 각자 수정 후 저장하면, 먼저 저장한 쪽은 성공하고
+    // (version 증가), 나중에 저장하는 쪽은 자기가 든 version이 이미 낡아서 조건에 안 걸려
+    // 0건 반영됨 -> Hibernate가 이걸 감지해 ObjectOptimisticLockingFailureException을 던짐.
+    // "비관적 락(SELECT ... FOR UPDATE로 아예 잠가버림)"과 달리, 잠그지 않고 저장 시점에만
+    // 충돌 여부를 확인하는 방식이라 "낙관적"이라 부름.
+    @Version
+    private Long version;
+
     public Document(String title, String content, Member owner) {
         this.title = title;
         this.content = content;
         this.owner = owner;
         this.createAt = LocalDateTime.now();
+    }
+
+    // content를 그냥 필드 그대로 노출하는 setter 대신, "내용을 바꾼다"는 의도가 드러나는
+    // 이름의 메서드로 만듦 — 나중에 이 메서드 안에 검증 로직(예: 빈 값 금지) 같은 걸
+    // 넣고 싶어져도 여기 한 곳만 고치면 됨.
+    public void changeContent(String newContent) {
+        this.content = newContent;
     }
 }
