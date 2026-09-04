@@ -18,6 +18,11 @@ docs/     이론 학습 자료 (md, 번호 순서로 학습)
 project/  토이프로젝트 (Java/Spring, 공고 핵심 업무 미러링)
 ```
 
+`project/design-reco-service/`: `backend-prep`과 겹치지 않는 공고 영역(AI 추천/다국어/WebFlux)을
+Claude가 설계·구현 주도로 만드는 별도 토이 프로젝트. 진행 상황·소스코드 학습 순서는 해당 디렉터리
+`README.md`/`STUDY_GUIDE.md` 참고. `project/design-reco-frontend/`는 이 백엔드를 호출하는 데모 프론트엔드
+(프레임워크 없는 바닐라 JS) — 클라이언트-서버가 실제로 어떻게 엮이는지 보는 용도.
+
 ## 학습 로드맵 (docs/)
 
 | 파일 | 주제 | 공고 대응 | 상태 |
@@ -77,7 +82,15 @@ project/  토이프로젝트 (Java/Spring, 공고 핵심 업무 미러링)
 
 ## 다음 단계
 
-### 재개 시 먼저 볼 것 (2026-09-01 기준)
+### 병행 트랙: project/design-reco-service (2026-09-04 기준)
+
+이 섹션(아래 전부)은 `backend-prep` 가이드 학습 트랙 얘기 — 그거랑 별도로 `project/design-reco-service`
+(+ `project/design-reco-frontend`) 트랙이 하나 더 생겼음. 공고 영역 중 backend-prep이 안 건드리는
+AI 추천/다국어/WebFlux를 Claude가 설계·구현 주도로 완성한 것 (v1 완결, 미완성 코드 없음). 재개 시
+먼저 볼 것/다음에 해볼 것은 `project/design-reco-service/README.md`의 "재개 시 먼저 볼 것" 절에 따로
+정리해둠 — 아래 backend-prep 관련 메모와는 독립적으로 진행하면 됨.
+
+### 재개 시 먼저 볼 것 (2026-09-01 기준, backend-prep 트랙)
 
 자바 기본 문법 복습하러 잠시 이탈 — 복습 끝나고 돌아오면 아래 "다음 실습 후보"에서 하나 골라 이어서 진행. 지금까지 학습 스타일(코드 바로 안 써주고 가이드/틀만 제공, 재요청 시에만 작성 — `map`/`stream`/람다 등 기초 문법도 당연시 말고 주석으로 설명)은 계속 유지.
 

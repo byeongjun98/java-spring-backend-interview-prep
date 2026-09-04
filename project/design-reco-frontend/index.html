@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>design-reco-service 데모</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>디자인 템플릿 추천 데모</h1>
+    <p class="sub">
+      <code>design-reco-service</code>(localhost:8080) 백엔드를 그대로 호출하는 화면.
+      프론트 자체를 공부하는 게 목적이 아니라, 화면의 어느 동작이 어느 API를 거쳐 백엔드
+      어느 코드까지 가는지 눈으로 추적하는 게 목적 — 자세한 흐름은
+      <code>project/design-reco-service/STUDY_GUIDE.md</code> 6단계 참고.
+    </p>
+    <div class="controls">
+      <label>Locale (Accept-Language 헤더)
+        <select id="locale-select">
+          <option value="ko">ko</option>
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </label>
+      <label>userId (POST /events에 실릴 값)
+        <input id="user-id-input" type="number" value="1" min="1">
+      </label>
+      <button id="refresh-btn">전체 새로고침</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="assets-section">
+      <h2>템플릿 목록 <span class="hint">GET /assets</span></h2>
+      <p class="hint">"보기"/"사용"은 <code>POST /events</code>로 이력을 남김 — 아래 "회원님을 위한 추천"이
+        이 이력을 반영해서 바뀜. "비슷한 템플릿"은 <code>GET /assets/{id}/recommendations</code>.</p>
+      <div id="assets-grid" class="grid"></div>
+    </section>
+
+    <section id="user-reco-section">
+      <h2>회원님을 위한 추천 <span class="hint">GET /users/{userId}/recommendations</span></h2>
+      <p class="hint">이력이 하나도 없으면 빈 배열 — 콜드 스타트. "보기"/"사용"을 눌러본 뒤 새로고침해볼 것.</p>
+      <div id="user-reco-grid" class="grid"></div>
+    </section>
+
+    <section id="log-section">
+      <h2>API 호출 로그</h2>
+      <pre id="log"></pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
